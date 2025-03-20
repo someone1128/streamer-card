@@ -166,7 +166,7 @@ async function processRequest(body) {
         });
         console.log('页面已导航至:', url);
 
-        await delay(2000)
+        await delay(3000)
 
         // 这里因为字体是按需加载，所以前面的等待字体加载不太有效，这里增大等待时间，以免部分字体没有加载完成
         // const cardElement = await page.$(`#${body.temp || 'tempA'}`); // 查找卡片元素
