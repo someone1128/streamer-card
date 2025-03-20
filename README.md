@@ -10,6 +10,7 @@
   <a href="./README_en.md">English</a> |
   <a href="./README.md">简体中文</a>
 </p>
+
 ## 1、🛸 在线使用
 
 - 海外版：https://www.streamertextcard.com/en
@@ -67,6 +68,9 @@ sudo yum install wqy-zenhei-fonts.noarch -y
 - node版本必须大于18
 - 如果非中国大陆用户或开启了VPN，请根据代码中的提示将服务器切换至海外版避免请求超时
 
+### 手动安装环境部署 linux
+保姆级教程：Linux (Ubuntu) 部署流光卡片开源 API：https://blog.csdn.net/weixin_46184095/article/details/140297726
+
 ### Docker执行
 
 #### docker cli
@@ -96,32 +100,54 @@ docker stop streamer-card
 yarn install
 
 #运行示例：
-node example1.js 
+ts-node src/index.ts
+or
+node src/index.js
 ```
 
 ##### 接口说明 POST /saveImg
 
 ##### 参数说明
 
-| 字段名         | 类型   | 描述                                             |
-| -------------- | ------ | ------------------------------------------------ |
-| `temp`         | String | 模板选择，目前仅有：tempA、tempB、tempC          |
-| `color`        | String | 颜色，请看下方颜色配置                           |
-| `icon`         | String | 图标                                             |
-| `title`        | String | 卡片 title                                       |
-| `date`         | String | 时间显示                                         |
-| `content`      | String | 卡片正文                                         |
-| `foreword`     | String | 前言                                             |
-| `author`       | String | 作者                                             |
-| `qrcodetitle`  | String | 二维码头部                                       |
-| `qrcodetext`   | String | 二维码描述文字                                   |
-| `qrcode`       | String | 你的二维码链接                                   |
-| `qrcodeImg`    | String | 你的二维码图片（优先级比`qrcode`高，选其一即可） |
-| `watermark`    | String | 水印                                             |
-| `switchConfig` | Object | 展示控制                                         |
-| `width`        | String | 宽度，默认情况下是 340px                         |
-| `padding`      | String | 内边距                                           |
-| `fontScale`    | String | 文字大小比例（例如传入1.2或者1.4等）             |
+| 字段名              | 类型      | 描述                                    |
+|------------------|---------|---------------------------------------|
+| `temp`           | String  | 模板选择，目前仅有：tempA、tempB、tempC           |
+| `color`          | String  | 颜色，请看下方颜色配置                           |
+| `icon`           | String  | 图标                                    |
+| `title`          | String  | 卡片 title                              |
+| `date`           | String  | 时间显示                                  |
+| `content`        | String  | 卡片正文                                  |
+| `foreword`       | String  | 前言                                    |
+| `author`         | String  | 作者                                    |
+| `qrcodetitle`    | String  | 二维码头部                                 |
+| `qrcodetext`     | String  | 二维码描述文字                               |
+| `qrcode`         | String  | 你的二维码链接                               |
+| `qrcodeImg`      | String  | 你的二维码图片（优先级比`qrcode`高，选其一即可）          |
+| `watermark`      | String  | 水印                                    |
+| `switchConfig`   | Object  | 展示控制                                  |
+| `width`          | String  | 宽度，最小 300                             |
+| `height`         | String  | 高度                                    |
+| `padding`        | String  | 内边距                                   |
+| `fontScale`      | String  | 文字大小比例（例如传入1.2或者1.4等）                 |
+| `useLoadingFont` | Boolean | 是否加载模板默认字体，默认情况下 api 为了更快的请求速度是不加载字体的 |
+| `useFont`        | String  | 指定字体类型，字体类型，往下翻                       |
+| `imgScale`       | String  | 图片清晰度，默认为 2，数值越大越清晰，同时下载时间也更长         |
+| `isContentHtml`  | String  | 是否使用 html 解析，默认为 false，使用 md 语法解析     |
+
+#### useFont 字体类型
+
+| 字体名称          | 参数value                  |
+|---------------|--------------------------|
+| 默认            | Source_Han_Sans_SC       |
+| 思源宋体-SemiBold | SourceHanSerifCN_SemiBold |
+| 思源宋体-Bold     | SourceHanSerifCN_Bold    |
+| 仓耳渔阳体W03      | CangErYuYangTiW03        |
+| 汇文明朝体         | Huiwen_mingchao          |
+| 朱雀仿宋          | ZhuqueFangsong           |
+| 小米-Light      | MiSans-Light             |
+| 小米-Normal     | MiSans-Thin              |
+| 小米-ExtraLight | MiSans-ExtraLight        |
+| 抖音美好体         | DouyinSansBold           |
 
 ##### switchConfig 参数说明
 
@@ -194,6 +220,8 @@ node example1.js
 
 ##### 请求示例
 
+本地部署后请求地址：http://localhost:3003/saveImg
+
 ```json
 {
     "temp": "tempB",
@@ -228,9 +256,45 @@ node example1.js
 
 即刻：https://web.okjike.com/u/ec41d7d5-407d-4395-ac8a-bd0f04fb202c
 
+小红书：https://www.xiaohongshu.com/user/profile/6220bf22000000001000e083
+
 <img src="./assets/hzy_wx.jpg" alt="hzy_wx" style="zoom: 33%;" />
 
 
+## 素材导入批量制卡prompt
+
+- Role: 知识闪卡提炼专家
+- Background: 用户需要一个能够从文章中提取反常识、惊爆、不常规数据或明显反差对比的信息的助手，以便于快速理解和分享这些信息。
+- Profile: 你是一位专业的信息提炼师，擅长从大量文本中迅速识别并提取出关键信息，尤其是那些反常识、惊爆、不常规数据或明显反差对比的信息。
+- Skills: 你具备高度的文本分析能力，能够理解文章的深层含义，并且能够准确地提取出文章中的精华部分。
+- Goals: 提取文章中的反常识、惊爆、不常规数据或明显反差对比的信息，并以知识闪卡的形式呈现，每张卡片包含上下文概括、原文引用、文章的作者和来源。
+- Constrains: 每张卡片必须包含上述四个部分，且格式必须符合用户要求的markdown语句代码块。
+- OutputFormat: 每张卡片都是一个独立的markdown代码块，格式如下：
+    - 15字以内的一句话上下文语境概括
+    - 双引号包裹的原文
+    - 文章的作者、标题、来源
+    - 分享的用户名和分享日期
+- Workflow:
+    1. 阅读并理解文章内容，识别反常识、惊爆、不常规数据或明显反差对比的信息。
+    2. 提取包含这些观点的原文段落，不少于15字，不多于50字。
+    3. 概括上下文语境场景，形成15字以内的一句话的总结。
+    4. 按照指定格式组织知识闪卡的内容。
+    5. 确保每张卡片都是一个独立的markdown代码块。
+
+- Examples:
+    - 例子1：
+      在探讨人工智能的未来发展时，作者提出了一个颠覆性的观点：
+      “人工智能最终将超越人类智能，成为地球的主导者”
+      ——张三 《人工智能的未来》发表于《科技前沿》
+      AI花生 2024年09月06日
+
+    - 例子2：
+      在讨论环境保护的重要性时，专家提出了一个令人震惊的论断:
+      “如果人类不改变目前的消费模式，地球将在本世纪末变得不适合居住。”
+      ——李四 《地球的未来》第三章
+      AI花生 2024年09月06日
+
+- Initialization: 来吧，我的知识闪卡。
 
 
 
